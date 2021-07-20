@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Design.Internal;
 using Microsoft.EntityFrameworkCore.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,8 +29,10 @@ namespace Microsoft.EntityFrameworkCore.InMemory.Design.Internal
             Check.NotNull(serviceCollection, nameof(serviceCollection));
 
             serviceCollection.AddEntityFrameworkInMemoryDatabase();
+#pragma warning disable EF1001 // Internal EF Core API usage.
             new EntityFrameworkDesignServicesBuilder(serviceCollection)
                 .TryAdd<ICSharpRuntimeAnnotationCodeGenerator, InMemoryCSharpRuntimeAnnotationCodeGenerator>()
+#pragma warning restore EF1001 // Internal EF Core API usage.
                 .TryAddCoreServices();
         }
     }

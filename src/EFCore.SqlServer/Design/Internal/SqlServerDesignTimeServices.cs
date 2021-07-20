@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Design.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding;
 using Microsoft.EntityFrameworkCore.SqlServer.Scaffolding.Internal;
 using Microsoft.EntityFrameworkCore.Utilities;
@@ -30,9 +31,11 @@ namespace Microsoft.EntityFrameworkCore.SqlServer.Design.Internal
             Check.NotNull(serviceCollection, nameof(serviceCollection));
 
             serviceCollection.AddEntityFrameworkSqlServer();
+#pragma warning disable EF1001 // Internal EF Core API usage.
             new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection)
                 .TryAdd<IAnnotationCodeGenerator, SqlServerAnnotationCodeGenerator>()
                 .TryAdd<ICSharpRuntimeAnnotationCodeGenerator, SqlServerCSharpRuntimeAnnotationCodeGenerator>()
+#pragma warning restore EF1001 // Internal EF Core API usage.
                 .TryAdd<IDatabaseModelFactory, SqlServerDatabaseModelFactory>()
                 .TryAdd<IProviderConfigurationCodeGenerator, SqlServerCodeGenerator>()
                 .TryAddCoreServices();

@@ -4,11 +4,11 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Utilities;
 
-namespace Microsoft.EntityFrameworkCore.Design
+namespace Microsoft.EntityFrameworkCore.Design.Internal
 {
     /// <summary>
     ///     <para>
-    ///         Service dependencies parameter class for <see cref="RelationalCSharpRuntimeAnnotationCodeGenerator" />
+    ///         Service dependencies parameter class for <see cref="CSharpRuntimeAnnotationCodeGenerator" />
     ///     </para>
     ///     <para>
     ///         This type is typically used by database providers (and other extensions). It is generally
@@ -23,11 +23,11 @@ namespace Microsoft.EntityFrameworkCore.Design
     ///         services using the 'With...' methods. Do not call the constructor at any point in this process.
     ///     </para>
     /// </summary>
-    public sealed record RelationalCSharpRuntimeAnnotationCodeGeneratorDependencies
+    public sealed record CSharpRuntimeAnnotationCodeGeneratorDependencies
     {
         /// <summary>
         ///     <para>
-        ///         Creates the service dependencies parameter object for a <see cref="RelationalCSharpRuntimeAnnotationCodeGenerator" />.
+        ///         Creates the service dependencies parameter object for a <see cref="CSharpRuntimeAnnotationCodeGenerator" />.
         ///     </para>
         ///     <para>
         ///         Do not call this constructor directly from either provider or application code as it may change
@@ -45,8 +45,16 @@ namespace Microsoft.EntityFrameworkCore.Design
         ///     </para>
         /// </summary>
         [EntityFrameworkInternal]
-        public RelationalCSharpRuntimeAnnotationCodeGeneratorDependencies()
+        public CSharpRuntimeAnnotationCodeGeneratorDependencies(ICSharpHelper cSharpHelper)
         {
+            Check.NotNull(cSharpHelper, nameof(cSharpHelper));
+
+            CSharpHelper = cSharpHelper;
         }
+
+        /// <summary>
+        ///     The C# helper.
+        /// </summary>
+        public ICSharpHelper CSharpHelper { get; init; }
     }
 }
